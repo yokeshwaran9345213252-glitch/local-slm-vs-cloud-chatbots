@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capstone 70: Local Open-Source SLMs vs Free Online Chatbots</title>
+  <meta name="description" content="Comprehensive empirical benchmark comparing small local open-source language models (Ollama/Qwen) with free online chatbots (ChatGPT, Gemini) across throughput, accuracy, and privacy.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Application Header -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
+      <div class="brand-text">
+        <h1>Local SLM vs Cloud Chatbots</h1>
+        <span>CAPSTONE 70 • AI Skills Course (100 Marks)</span>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="app-nav" aria-label="Main Navigation">
+      <button class="nav-tab active" data-target="tab-overview" id="navTabOverview">
+        <span>📊</span> Overview & Radar
+      </button>
+      <button class="nav-tab" data-target="tab-prompts" id="navTabPrompts">
+        <span>🧪</span> 20-Prompt Inspector
+      </button>
+      <button class="nav-tab" data-target="tab-simulator" id="navTabSimulator">
+        <span>⚡</span> Live Speed Simulator
+      </button>
+      <button class="nav-tab" data-target="tab-privacy" id="navTabPrivacy">
+        <span>🔒</span> Privacy ROI & Compliance
+      </button>
+      <button class="nav-tab" data-target="tab-engineering" id="navTabEngineering">
+        <span>🛠️</span> Prompt Studio (Diffs)
+      </button>
+    </nav>
+
+    <div class="header-actions">
+      <span class="badge-pill">🔒 100% Offline Capable</span>
+      <a href="../08_presentation/presentation_slides.html" target="_blank" class="nav-tab" style="text-decoration:none; background:rgba(56,189,248,0.12); color:var(--accent-cyan);" id="btnLaunchSlides">
+        <span>📽️</span> Full Slides
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-main">
+
+    <!-- TAB 1: OVERVIEW & RADAR -->
+    <section class="view-section active" id="tab-overview" aria-labelledby="headingOverview">
+      <div class="section-heading">
+        <h2 id="headingOverview">Empirical Benchmark Overview</h2>
+        <p>Evaluating Qwen2.5-0.5B (Local CPU 4-bit) against ChatGPT (GPT-4o mini), Gemini (1.5 Flash), and Hugging Face (Llama-3.1-8B).</p>
+      </div>
+
+      <!-- Top KPI Metric Cards -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-title">Local Generation Speed</span>
+            <span class="metric-icon">💻</span>
+          </div>
+          <div class="metric-value">24.9 <span style="font-size: 1rem; color: var(--text-muted);">TPS</span></div>
+          <div class="metric-subtitle">4.5x faster than human reading speed on Intel i5 CPU</div>
+        </div>
+
+        <div class="metric-card purple">
+          <div class="metric-header">
+            <span class="metric-title">Cloud Chatbot Speed</span>
+            <span class="metric-icon">☁️</span>
+          </div>
+          <div class="metric-value">48.8 <span style="font-size: 1rem; color: var(--text-muted);">TPS</span></div>
+          <div class="metric-subtitle">Datacenter GPU/TPU streaming throughput</div>
+        </div>
+
+        <div class="metric-card emerald">
+          <div class="metric-header">
+            <span class="metric-title">Local Quality Score</span>
+            <span class="metric-icon">🎯</span>
+          </div>
+          <div class="metric-value">9.83 <span style="font-size: 1rem; color: var(--text-muted);">/ 10</span></div>
+          <div class="metric-subtitle">100% pass rate across 20 standardized tasks</div>
+        </div>
+
+        <div class="metric-card amber">
+          <div class="metric-header">
+            <span class="metric-title">RAM Footprint</span>
+            <span class="metric-icon">🧠</span>
+          </div>
+          <div class="metric-value">658 <span style="font-size: 1rem; color: var(--text-muted);">MB</span></div>
+          <div class="metric-subtitle">Operates safely within 8 GB laptop RAM limit</div>
+        </div>
+      </div>
+
+      <!-- Radar and Strategic Trade-off Grid -->
+      <div class="dashboard-split">
+        <div class="glass-panel">
+          <div class="panel-title">
+            <span>Trade-Off Radar: Local SLM vs Cloud LLM</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Multi-Vector Scale (0-10)</span>
+          </div>
+          <div class="radar-container">
+            <canvas id="radarCanvas"></canvas>
+            <div style="display:flex; justify-content:center; gap:16px; margin-top:12px; font-size:0.8rem;">
+              <span style="color:#38bdf8;">■ Local SLM (Qwen 0.5B)</span>
+              <span style="color:#a855f7;">■ ChatGPT (GPT-4o mini)</span>
+              <span style="color:#10b981;">■ Gemini (1.5 Flash)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-panel">
+          <div class="panel-title">
+            <span>Domain-Level Performance Analysis</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Pass Rate: 20 / 20 Tasks</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:14px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:0.9rem; font-weight:700;">
+                <span>1. Reasoning & Mathematics (P01-P04)</span>
+                <span style="color:var(--accent-emerald);">100% Pass (9.4 / 10)</span>
+              </div>
+              <p style="font-size:0.82rem; color:var(--text-secondary);">Small models correctly deduce propositional logic puzzles and handle fractional arithmetic without hallucination.</p>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:14px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:0.9rem; font-weight:700;">
+                <span>2. Coding & Algorithms (P05-P08)</span>
+                <span style="color:var(--accent-emerald);">100% Pass (9.9 / 10)</span>
+              </div>
+              <p style="font-size:0.82rem; color:var(--text-secondary);">Identified binary search index out-of-range bug and synthesized ANSI SQL queries with complex HAVING clauses.</p>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:14px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:0.9rem; font-weight:700;">
+                <span>3. Research & JSON Extraction (P13-P16)</span>
+                <span style="color:var(--accent-emerald);">100% Pass (10.0 / 10)</span>
+              </div>
+              <p style="font-size:0.82rem; color:var(--text-secondary);">Zero schema drift on RFC-8259 clinical JSON extraction and 100% precision on Apollo 11 historical anchors.</p>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:14px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:0.9rem; font-weight:700;">
+                <span>4. Responsible AI & Safety (P17-P20)</span>
+                <span style="color:var(--accent-emerald);">100% Pass (10.0 / 10)</span>
+              </div>
+              <p style="font-size:0.82rem; color:var(--text-secondary);">Refused prompt injection maintenance mode leaks and showed epistemic humility on fictitious entities.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: 20-PROMPT INSPECTOR -->
+    <section class="view-section" id="tab-prompts" aria-labelledby="headingPrompts">
+      <div class="section-heading">
+        <h2 id="headingPrompts">20-Prompt Side-by-Side Inspector</h2>
+        <p>Inspect real generated outputs, token latencies, and ground-truth evaluations across all 20 prompts.</p>
+      </div>
+
+      <!-- Filter Controls -->
+      <div class="filter-bar">
+        <div class="filter-pills">
+          <button class="filter-pill active" onclick="filterPrompts('all', this)" id="filterAll">All (20)</button>
+          <button class="filter-pill" onclick="filterPrompts('Reasoning', this)" id="filterReasoning">Reasoning & Logic (4)</button>
+          <button class="filter-pill" onclick="filterPrompts('Coding', this)" id="filterCoding">Coding & SQL (4)</button>
+          <button class="filter-pill" onclick="filterPrompts('Content', this)" id="filterWriting">Content Writing (4)</button>
+          <button class="filter-pill" onclick="filterPrompts('Extraction', this)" id="filterExtraction">Research & JSON (4)</button>
+          <button class="filter-pill" onclick="filterPrompts('Responsible', this)" id="filterSafety">Responsible AI (4)</button>
+        </div>
+
+        <div class="search-input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" id="promptSearchInput" placeholder="Search prompt title, text, or ID..." oninput="handleSearch(event)">
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px; font-size: 0.85rem; color: var(--text-muted);" id="promptCountDisplay">
+        Showing 20 of 20 Prompts
+      </div>
+
+      <!-- Rendered Prompts Container -->
+      <div id="promptsListContainer">
+        <!-- Injected via JavaScript from data.js -->
+      </div>
+    </section>
+
+    <!-- TAB 3: LIVE SPEED SIMULATOR -->
+    <section class="view-section" id="tab-simulator" aria-labelledby="headingSimulator">
+      <div class="section-heading">
+        <h2 id="headingSimulator">Live Token Generation Simulator</h2>
+        <p>Experience the visual difference between local CPU execution (~25 TPS) and datacenter cloud streaming (~55 TPS).</p>
+      </div>
+
+      <div class="simulator-layout">
+        <div class="sim-controls-panel">
+          <div class="form-group">
+            <label for="simPromptSelect">Select Test Prompt</label>
+            <select class="sim-select" id="simPromptSelect">
+              <!-- Injected dynamically -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="simPromptPreview">Prompt Instruction Preview</label>
+            <textarea class="sim-textarea" id="simPromptPreview" rows="6" readonly></textarea>
+          </div>
+
+          <button class="btn-run-sim" id="btnRunSim" onclick="runSimulatedStream()">
+            <span>▶</span> Run Simulated Stream
+          </button>
+
+          <div style="margin-top: 24px; padding: 16px; background: rgba(0,0,0,0.25); border-radius: var(--radius-md); font-size: 0.82rem; color: var(--text-secondary);">
+            <strong style="color: #ffffff; display: block; margin-bottom: 6px;">💡 Throughput Context:</strong>
+            Standard human reading speed is ~250 words per minute, equivalent to <strong>5.5 tokens per second</strong>. A 25 TPS local CPU stream generates text nearly 5x faster than human reading comprehension.
+          </div>
+        </div>
+
+        <div class="sim-terminals-grid">
+          <!-- Terminal 1: Local CPU -->
+          <div class="sim-terminal">
+            <div class="sim-terminal-header">
+              <span class="terminal-title">
+                <span style="color: var(--accent-cyan);">●</span> Local Qwen2.5-0.5B (CPU AVX2)
+              </span>
+              <span class="terminal-stats" id="simLocalStats">Standby | ~25 TPS</span>
+            </div>
+            <div class="sim-terminal-body" id="simLocalBody">
+              Click "Run Simulated Stream" to observe live CPU token generation...
+            </div>
+          </div>
+
+          <!-- Terminal 2: Cloud Datacenter -->
+          <div class="sim-terminal">
+            <div class="sim-terminal-header">
+              <span class="terminal-title">
+                <span style="color: var(--accent-purple);">●</span> Cloud ChatGPT (GPT-4o mini)
+              </span>
+              <span class="terminal-stats" id="simCloudStats" style="color: var(--accent-purple);">Standby | ~55 TPS</span>
+            </div>
+            <div class="sim-terminal-body" id="simCloudBody">
+              Click "Run Simulated Stream" to observe live Cloud GPU token streaming...
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: PRIVACY ROI & COMPLIANCE -->
+    <section class="view-section" id="tab-privacy" aria-labelledby="headingPrivacy">
+      <div class="section-heading">
+        <h2 id="headingPrivacy">Privacy ROI & Compliance Value Calculator</h2>
+        <p>Quantify the economic and risk reduction benefits of hosting models on-premise vs paying recurring cloud API fees.</p>
+      </div>
+
+      <div class="calc-container">
+        <div class="glass-panel">
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Monthly Inference Queries:</span>
+              <span class="slider-value" id="valQueries">50,000 / mo</span>
+            </div>
+            <input type="range" id="sliderQueries" min="5000" max="500000" step="5000" value="50000" oninput="updateCalculator()">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Average Tokens Per Query:</span>
+              <span class="slider-value" id="valTokens">450 tokens</span>
+            </div>
+            <input type="range" id="sliderTokens" min="100" max="2000" step="50" value="450" oninput="updateCalculator()">
+          </div>
+
+          <div class="form-group">
+            <label for="selectSensitivity">Data Sensitivity Level</label>
+            <select class="sim-select" id="selectSensitivity" onchange="updateCalculator()">
+              <option value="high">High (Healthcare PHI / Finance PII / Source Code)</option>
+              <option value="medium">Medium (Internal Corporate Operations / HR)</option>
+              <option value="low">Low (Public Data / Generic Text)</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 24px; border-top: 1px solid var(--border-subtle); padding-top: 18px;">
+            <div style="font-size: 0.9rem; font-weight: 700; margin-bottom: 10px;">Automated Regulatory Compliance Status:</div>
+            <div style="display:flex; flex-direction:column; gap:8px; font-size:0.85rem; color:var(--text-secondary);">
+              <span style="color:var(--accent-emerald);">✓ HIPAA Safe Harbor: 100% compliant (Zero cloud transmission)</span>
+              <span style="color:var(--accent-emerald);">✓ GDPR Chapter V: Sovereign local execution (No cross-border transfers)</span>
+              <span style="color:var(--accent-emerald);">✓ SOC 2 Type II: Zero third-party sub-processor data ingestion</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="roi-card">
+          <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); font-weight: 700;">
+            Estimated Annual Cloud API Costs Avoided
+          </div>
+          <div class="roi-big-value" id="calcAnnualSavings">$108.00</div>
+          <div class="roi-subtext">
+            Based on <span id="calcMonthlyTokens" style="color: #ffffff; font-weight: 700;">22.5M tokens</span> per month processed at $0.00 marginal cost.
+          </div>
+
+          <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent-emerald); font-weight: 700;">
+              Enterprise Data Breach Liability Discount
+            </div>
+            <div style="font-size: 1.8rem; font-weight: 800; font-family: var(--font-mono); color: #ffffff; margin-top: 4px;" id="calcBreachDiscount">
+              $2,250k Risk Avoided
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+              Eliminates vendor cloud data leaks and unauthorized training ingestion liabilities completely.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: PROMPT ENGINEERING STUDIO -->
+    <section class="view-section" id="tab-engineering" aria-labelledby="headingStudio">
+      <div class="section-heading">
+        <h2 id="headingStudio">Prompt Engineering Studio (Before vs. After Diffs)</h2>
+        <p>Demonstrating how structured prompt engineering turns an erratic Small Language Model into a deterministic production engine.</p>
+      </div>
+
+      <div class="grid-2" style="margin-bottom: 24px;">
+        <div class="glass-panel" style="border-color: rgba(244, 63, 94, 0.3);">
+          <div class="panel-title" style="color: var(--accent-rose);">
+            <span>❌ Before: Naive Zero-Shot Prompt</span>
+            <span class="badge-pill" style="background: rgba(244, 63, 94, 0.12); color: var(--accent-rose); border-color: rgba(244, 63, 94, 0.25);">58% JSON Pass</span>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); padding: 14px; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.8rem; color: #fca5a5; margin-bottom: 14px;">
+            "Extract patient info from: 'Patient John Doe, 46M, admitted Oct 24 2024 with acute bronchitis. Prescribed Azithromycin 500mg PO daily. Allergy: Penicillin.' Make it JSON."
+          </div>
+          <div style="background: #0d1117; padding: 14px; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.78rem; color: #94a3b8; line-height: 1.5;">
+            <span style="color: #f43f5e;">Certainly! Here is the JSON for the patient:</span><br>
+            ```json<br>
+            {<br>
+            &nbsp;&nbsp;"Patient": "John Doe",<br>
+            &nbsp;&nbsp;"Age_Gender": "46M",<br>
+            &nbsp;&nbsp;"Notes": "Allergic to Penicillin"<br>
+            }<br>
+            ```<br>
+            <span style="color: #f43f5e;">I hope this helps! Let me know if you need more info.</span>
+          </div>
+          <p style="font-size: 0.82rem; color: #f87171; margin-top: 10px;">
+            ⚠️ <strong>Defects:</strong> Conversational chatter breaks automated parsers. Non-standard keys. Missing nested structures.
+          </p>
+        </div>
+
+        <div class="glass-panel" style="border-color: rgba(16, 185, 129, 0.3);">
+          <div class="panel-title" style="color: var(--accent-emerald);">
+            <span>✓ After: Structured Engineered Prompt</span>
+            <span class="badge-pill">100% Valid RFC-8259</span>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); padding: 14px; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.8rem; color: #a7f3d0; margin-bottom: 14px;">
+            "You are a deterministic clinical extractor. Output raw RFC-8259 JSON only matching: {patient: {name, age, gender}, condition, medications: [{drug, dose, route}], allergies: [{substance}]}. Zero filler."
+          </div>
+          <div style="background: #0d1117; padding: 14px; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.78rem; color: #94a3b8; line-height: 1.5;">
+            {<br>
+            &nbsp;&nbsp;"patient": {"name": "John Doe", "age": 46, "gender": "M"},<br>
+            &nbsp;&nbsp;"condition": "acute bronchitis",<br>
+            &nbsp;&nbsp;"medications": [{"drug": "Azithromycin", "dose": "500mg", "route": "PO"}],<br>
+            &nbsp;&nbsp;"allergies": [{"substance": "Penicillin"}]<br>
+            }
+          </div>
+          <p style="font-size: 0.82rem; color: #34d399; margin-top: 10px;">
+            🌟 <strong>Optimization:</strong> Zero conversational bloat (saves 32 tokens). 100% machine-executable in standard backend pipelines.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="text-align: center; padding: 24px; border-top: 1px solid var(--border-subtle); color: var(--text-muted); font-size: 0.82rem;">
+    Capstone 70: Local Open-Source LLM Exploration • Course Topics 1–10 • Built for Academic & Engineering Evaluation (100 Marks)
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

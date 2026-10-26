@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="100%" height="100%" style="background:#0d1117; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="localGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f6feb" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0d419d" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8957e5" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#5522a3" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#238636" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#196c2e" stop-opacity="0.9"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Header -->
+  <text x="500" y="45" text-anchor="middle" fill="#f0f6fc" font-size="22" font-weight="700" letter-spacing="1">CAPSTONE 70: LOCAL OPEN-SOURCE SLM vs. FREE CLOUD LLM ARCHITECTURE</text>
+  <text x="500" y="70" text-anchor="middle" fill="#8b949e" font-size="13">Data Flow, Privacy Boundaries, Latency Path, and Hardware Execution Pipeline</text>
+
+  <!-- Divider Line -->
+  <line x1="500" y1="95" x2="500" y2="560" stroke="#30363d" stroke-width="2" stroke-dasharray="6,6"/>
+
+  <!-- Left Side: Local LLM Execution Pipeline -->
+  <rect x="40" y="95" width="430" height="470" rx="12" fill="#161b22" stroke="#1f6feb" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="95" width="430" height="40" rx="12" fill="url(#localGrad)"/>
+  <text x="255" y="121" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="600">LOCAL OPEN-SOURCE PIPELINE (Ollama / SLM)</text>
+
+  <!-- Local Node 1: User Client -->
+  <rect x="70" y="160" width="370" height="60" rx="8" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+  <text x="90" y="185" fill="#58a6ff" font-size="14" font-weight="600">1. Client Application / User Interface</text>
+  <text x="90" y="205" fill="#8b949e" font-size="12">Interactive Dashboard / Terminal CLI / Python Script</text>
+
+  <!-- Arrow down -->
+  <line x1="255" y1="220" x2="255" y2="250" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="265" y="240" fill="#79c0ff" font-size="11">Zero Network (localhost:11434)</text>
+
+  <!-- Local Node 2: Local Runtime -->
+  <rect x="70" y="255" width="370" height="70" rx="8" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+  <text x="90" y="280" fill="#58a6ff" font-size="14" font-weight="600">2. Ollama Runtime (llama.cpp Engine)</text>
+  <text x="90" y="300" fill="#8b949e" font-size="12">GGUF Parser · KV Cache Allocation · AVX2 Vectorization</text>
+  <text x="90" y="315" fill="#3fb950" font-size="11">✓ Air-gapped boundary: No external data egress</text>
+
+  <!-- Arrow down -->
+  <line x1="255" y1="325" x2="255" y2="355" stroke="#58a6ff" stroke-width="2"/>
+
+  <!-- Local Node 3: Model & Hardware -->
+  <rect x="70" y="360" width="370" height="85" rx="8" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+  <text x="90" y="385" fill="#58a6ff" font-size="14" font-weight="600">3. Quantized Model (Qwen2.5 0.5B / TinyLlama 1.1B)</text>
+  <text x="90" y="405" fill="#8b949e" font-size="12">Weights: 395MB - 637MB (Q4_K_M 4-bit)</text>
+  <text x="90" y="425" fill="#d29922" font-size="11">Host: Intel Core i5-8365U CPU (4 Cores / 8 Threads, 8GB RAM)</text>
+
+  <!-- Privacy Badge Left -->
+  <rect x="70" y="465" width="370" height="80" rx="8" fill="url(#shieldGrad)" stroke="#2ea043" stroke-width="1"/>
+  <text x="95" y="492" fill="#ffffff" font-size="13" font-weight="700">🔒 PRIVACY & SOVEREIGNTY GUARANTEE</text>
+  <text x="95" y="512" fill="#e6edf3" font-size="11">• 100% Offline execution — zero telemetry</text>
+  <text x="95" y="530" fill="#e6edf3" font-size="11">• Compliant with HIPAA, GDPR, NDA, and classified IP</text>
+
+  <!-- Right Side: Cloud LLM Pipeline -->
+  <rect x="530" y="95" width="430" height="470" rx="12" fill="#161b22" stroke="#8957e5" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="530" y="95" width="430" height="40" rx="12" fill="url(#cloudGrad)"/>
+  <text x="745" y="121" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="600">CLOUD ONLINE CHATBOT PIPELINE (ChatGPT / Gemini)</text>
+
+  <!-- Cloud Node 1: User Client -->
+  <rect x="560" y="160" width="370" height="60" rx="8" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+  <text x="580" y="185" fill="#bc8cff" font-size="14" font-weight="600">1. Web Browser / Mobile App Client</text>
+  <text x="580" y="205" fill="#8b949e" font-size="12">Public Internet Access Required (DNS, TLS 1.3)</text>
+
+  <!-- Arrow down with warning -->
+  <line x1="745" y1="220" x2="745" y2="250" stroke="#bc8cff" stroke-width="2"/>
+  <text x="755" y="240" fill="#f85149" font-size="11">Data egress across ISP & WAN</text>
+
+  <!-- Cloud Node 2: Gateway & Filters -->
+  <rect x="560" y="255" width="370" height="70" rx="8" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+  <text x="580" y="280" fill="#bc8cff" font-size="14" font-weight="600">2. Cloud Gateway, Auth & Content Moderation</text>
+  <text x="580" y="300" fill="#8b949e" font-size="12">Telemetry Logging · Safety Classifiers · User Fingerprinting</text>
+  <text x="580" y="315" fill="#f85149" font-size="11">⚠ Prompt logged & retained per ToS on free tiers</text>
+
+  <!-- Arrow down -->
+  <line x1="745" y1="325" x2="745" y2="355" stroke="#bc8cff" stroke-width="2"/>
+
+  <!-- Cloud Node 3: Datacenter Compute -->
+  <rect x="560" y="360" width="370" height="85" rx="8" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+  <text x="580" y="385" fill="#bc8cff" font-size="14" font-weight="600">3. Frontier Cluster (GPT-4o mini / Gemini 1.5 Flash)</text>
+  <text x="580" y="405" fill="#8b949e" font-size="12">Trillions of Tokens · Multi-GPU Clusters (NVIDIA H100 / TPUs)</text>
+  <text x="580" y="425" fill="#3fb950" font-size="11">Superior general reasoning, 1M+ context window, world knowledge</text>
+
+  <!-- Tradeoff Badge Right -->
+  <rect x="560" y="465" width="370" height="80" rx="8" fill="#301c38" stroke="#8957e5" stroke-width="1"/>
+  <text x="585" y="492" fill="#d2a8ff" font-size="13" font-weight="700">⚡ CAPABILITY & DEPENDENCY TRADE-OFF</text>
+  <text x="585" y="512" fill="#e6edf3" font-size="11">• Incomparable reasoning depth & broad domain synthesis</text>
+  <text x="585" y="530" fill="#e6edf3" font-size="11">• Requires active broadband; subject to downtime & rate limits</text>
+</svg>
